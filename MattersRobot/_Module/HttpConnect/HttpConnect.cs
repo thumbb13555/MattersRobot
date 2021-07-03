@@ -17,7 +17,8 @@ namespace MattersRobot._Module.HttpConnect
             {
                 var URL = new UriBuilder(http);
                 URL.Query = queryString.ToString();
-                Console.WriteLine(URL.ToString());
+                APIs.WriteToFile("Send API: " + URL.ToString());
+                
                 var client = new WebClient();
                 client.Headers.Add("X-CMC_PRO_API_KEY", APIs.CoinKey);
                 client.Headers.Add("Accepts", "application/json");
@@ -25,7 +26,7 @@ namespace MattersRobot._Module.HttpConnect
             }
             catch(Exception e)
             {
-                return e.Message;
+                return "0";
             }
             
         }//

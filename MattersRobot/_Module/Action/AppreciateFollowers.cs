@@ -23,14 +23,12 @@ namespace MattersRobot._Module.Action
         private async void init()
         {
             List<string> nameList = await getFollwers();
-            Console.WriteLine($"以上追蹤我的人共: {nameList.Count}位");
             WriteToFile($"追蹤我的人共: {nameList.Count}位");
             List<string> articleId = await getArticleId(nameList);
             bool isFinish = await appreciateFollowers(articleId);
             if (isFinish)
             {
-                string finishInfo = "拍手程序於"+DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss")+"已完成";
-                Console.WriteLine(finishInfo);
+                string finishInfo = "拍手程序於"+DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss")+"已完成\n  ";
                 WriteToFile(finishInfo);
             }
 

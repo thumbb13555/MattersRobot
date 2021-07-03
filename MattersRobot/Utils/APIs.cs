@@ -38,11 +38,13 @@ namespace MattersRobot.Utils
         public const string GetCurrency = "https://tw.rter.info/capi.php";
         public const string CoinKey = "53bc319d-7249-49da-b89f-672730481632";
         public const string GetPriceConversion = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion";//價格換算
-
-        public string CovidData = $"https://corona.lmao.ninja/v2/countries/{countries}?yesterday=true";
+        public const int tryLimit = 30;
+        public string CovidData = $"https://corona.lmao.ninja/v2/countries/{countries}";    
         public const string baseAPI = "https://server.matters.news/graphql";
-        public int morning = Int32.Parse(DateTime.Today.AddHours(7).AddMinutes(00).ToString("HHmmss"));//早上7點
-        public int noon = Int32.Parse(DateTime.Today.AddHours(12).AddMinutes(15).ToString("HHmmss"));//中午12點
+        public int earlyMorning = Int32.Parse(DateTime.Today.AddHours(7).AddMinutes(30).ToString("HHmmss"));//早上7點30分
+        public int morning = Int32.Parse(DateTime.Today.AddHours(10).AddMinutes(00).ToString("HHmmss"));//早上10點
+        public int noon = Int32.Parse(DateTime.Today.AddHours(12).AddMinutes(00).ToString("HHmmss"));//中午12點
+        public int afternoon = Int32.Parse(DateTime.Today.AddHours(15).AddMinutes(00).ToString("HHmmss"));//下午3點
         public int evening = Int32.Parse(DateTime.Today.AddHours(17).ToString("HHmmss"));//下午5點
         public int night = Int32.Parse(DateTime.Today.AddHours(20).AddMinutes(30).ToString("HHmmss"));//晚上八點半
         public const string UserName = "eddis61805";
@@ -53,8 +55,9 @@ namespace MattersRobot.Utils
             return Decimal.Parse(d.ToString(), NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint).ToString();
         }
         /**Writeing a diary log */
-        public void WriteToFile(string Message)
+        public static void WriteToFile(string Message)
         {
+            Console.WriteLine(Message);
             string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
             if (!Directory.Exists(path))
             {

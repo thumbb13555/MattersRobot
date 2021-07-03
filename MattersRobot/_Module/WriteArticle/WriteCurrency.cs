@@ -40,8 +40,6 @@ namespace MattersRobot._Module.WriteArticle
             string jsonUsd = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
             Like2USD priceLike2USD = JsonConvert.DeserializeObject<Like2USD>(jsonUsd);
             double like2Usd = priceLike2USD.data.quote.usd.price;
-            Console.WriteLine("1Like to USD = " + like2Usd);
-            Console.WriteLine("");
             WriteToFile($"取得報價: 1Like = {like2Usd}/USD");
             exportString.Append($"<p><strong>1Like = US${like2Usd} (美金)</strong><br>" +
                 $"≈ NT$ {like2Usd * currency.USDTWD.Exrate} (台幣)<br>" +
@@ -59,9 +57,6 @@ namespace MattersRobot._Module.WriteArticle
             string jsonBtc = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
             Like2BTC priceLike2BTC = JsonConvert.DeserializeObject<Like2BTC>(jsonBtc);
             string like2Btc = parseToDec(priceLike2BTC.data.quote.Btc.price);
-
-            Console.WriteLine("1Like to BTC = " + like2Btc);
-            Console.WriteLine("");
             WriteToFile($"取得報價: 1Like = {like2Btc}/BTC");
             exportString.Append($"1Like = {like2Btc} /BTC<br>");
 
@@ -70,8 +65,6 @@ namespace MattersRobot._Module.WriteArticle
             string jsonETH = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
             Like2ETH priceLike2ETH = JsonConvert.DeserializeObject<Like2ETH>(jsonETH);
             string like2ETH = parseToDec(priceLike2ETH.data.quote.Eth.price);
-            Console.WriteLine("1Like to ETH = " + like2ETH);
-            Console.WriteLine("");
             WriteToFile($"取得報價: 1Like = {like2ETH}/ETH");
             exportString.Append($"1Like = {like2ETH} /ETH<br>");
 
@@ -80,8 +73,6 @@ namespace MattersRobot._Module.WriteArticle
             string jsonSTEEM = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
             Like2STEEM priceLike2STEEM = JsonConvert.DeserializeObject<Like2STEEM>(jsonSTEEM);
             string like2STEEM = parseToDec(priceLike2STEEM.data.quote.Steem.price);
-            Console.WriteLine("1Like to STEEM = " + like2STEEM);
-            Console.WriteLine("");
             WriteToFile($"取得報價: 1Like = {like2STEEM}/STEEM");
             exportString.Append($"1Like = {like2STEEM} /STEEM<br>");
 
@@ -90,8 +81,6 @@ namespace MattersRobot._Module.WriteArticle
             string jsonUSDT = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
             Like2USDT priceLike2USDT = JsonConvert.DeserializeObject<Like2USDT>(jsonUSDT);
             string like2USDT = parseToDec(priceLike2USDT.data.quote.Usdt.price);
-            Console.WriteLine("1Like to USDT = " + like2USDT);
-            Console.WriteLine("");
             WriteToFile($"取得報價: 1Like = {like2USDT}/USDT");
             exportString.Append($"1Like = {like2USDT} /USDT<br>");
             exportString.Append("<hr/>");
@@ -105,13 +94,13 @@ namespace MattersRobot._Module.WriteArticle
             exportString.Append($"<p>USD 換 <strong>SGD(新加坡幣) </strong>= 1 : <strong>{currency.USDSGD.Exrate}</strong></p>");
             WriteToFile("Today's currency success.");
             exportString.Append("<hr/>");
-            exportString.Append("<H1>API來源: </H1>");
+            exportString.Append("<H1>資訊來源: </H1>");
             exportString.Append("<p>換幣資訊: <a href = " + '"' + "https://coinmarketcap.com/api/documentation/v1/" + '"' + ">" +
                 "CoinMarketCap</a></p>");
             exportString.Append("<p>匯率資訊: <a href = " + '"' + "https://tw.rter.info/" + '"' + ">" + "即匯站</a></p>");
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " 今日虛擬幣與法幣匯率日報";
             string[] tags = {"LikeCoin","匯率","虛擬幣/法幣匯率日報", "WebMonetizationMatters" };
-            respond.currencyRes(title, "本文為伺服器每日統整各虛擬幣/各國匯率之報表數據。", exportString,tags, token);
+            respond.currencyRes(title, "本文為小農每日統整各虛擬幣/各國匯率之報表數據", exportString,tags, token);
         }
     }
 
