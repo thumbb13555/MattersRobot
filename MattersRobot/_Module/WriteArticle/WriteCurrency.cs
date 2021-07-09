@@ -99,7 +99,7 @@ namespace MattersRobot._Module.WriteArticle
                 "CoinMarketCap</a></p>");
             exportString.Append("<p>匯率資訊: <a href = " + '"' + "https://tw.rter.info/" + '"' + ">" + "即匯站</a></p>");
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " 今日虛擬幣與法幣匯率日報";
-            string[] tags = {"LikeCoin","匯率","虛擬幣/法幣匯率日報", "WebMonetizationMatters" };
+            string[] tags = {"LikeCoin","匯率","虛擬幣/法幣匯率日報", "日報" };
             respond.currencyRes(title, "本文為小農每日統整各虛擬幣/各國匯率之報表數據", exportString,tags, token);
         }
     }

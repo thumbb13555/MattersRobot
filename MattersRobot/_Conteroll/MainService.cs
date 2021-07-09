@@ -1,6 +1,7 @@
 ﻿using MattersAutoClap._Module.Entity;
 using MattersRobot._Module.Action;
 using MattersRobot._Module.Entitly;
+using MattersRobot._Module.HttpConnect;
 using MattersRobot._Module.WriteArticle;
 using MattersRobot.Utils;
 using System;
@@ -26,7 +27,7 @@ namespace MattersRobot
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 1000;  
             timer.Enabled = true;
-            //string token = await login();
+            token = await login();
             //new WriteCovidInfo(token, this);
             //new WriteCurrency(token, this);
             //new AppreciateFollowers(UserName, token);
@@ -41,20 +42,17 @@ namespace MattersRobot
             if(now == earlyMorning)
             {
                 WriteToFile("\nPublish covid-19 info article");
-                string token = await login();
                 new WriteCovidInfo(token, this);
             }
 
             else if(now == noon)
             {
                 WriteToFile("\nPublish currency article");
-                string token = await login();
                 new WriteCurrency(token, this);
             }
             else if (now == morning || now == afternoon || now == night)
             {
                 WriteToFile("\nAppreciate article");
-                string token = await login();
                 new AppreciateFollowers(UserName, token);
             }
 
@@ -100,10 +98,12 @@ namespace MattersRobot
             /**Push draft*/
             string draftId = await PushDraft.getDraftId(putDraftGraphQL(title, summary, content.ToString(),tags), token);
             WriteToFile("草稿 ID: " + draftId);
-
-            /**Publish Article*/
-            string articleId = await PublishArticle.getArticleId(publishArticle(draftId),token);
-            WriteToFile("文章上傳成功，ID為 : " + articleId+"\n   ");
+            if (!Environment.UserInteractive)
+            {
+                /**Publish Article*/
+                string articleId = await PublishArticle.getArticleId(publishArticle(draftId), token);
+                WriteToFile("文章上傳成功，ID為 : " + articleId + "\n   ");
+            }
         }
     }
 }

@@ -14,7 +14,10 @@ namespace MattersRobot._Module.Entitly
         public int todayCases { get; set; }
         public int deaths { get; set; }
         public int todayDeaths { get; set; }
-       
-        
+        public CountryInfo CountryInfo { get; set; }
+    }
+    public class CountryInfo
+    {
+        public string Flag { get; set; }
     }
 }

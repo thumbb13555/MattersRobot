@@ -11,6 +11,7 @@ namespace MattersRobot._Module.HttpConnect
 {
     public class HttpConnect
     {
+
         public static string sendGet(string http, NameValueCollection queryString)
         {
             try

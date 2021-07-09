@@ -114,6 +114,7 @@
     <Compile Include="Utils\APIs.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utils\Fiddle.cs" />
     <Compile Include="_Conteroll\MainService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -144,6 +145,7 @@
     <Compile Include="_Module\Entitly\GraphQLRespond.cs" />
     <Compile Include="_Module\Entitly\Login.cs" />
     <Compile Include="_Module\Entitly\PriceConvert.cs" />
+    <Compile Include="_Module\Entitly\GetMattersImage.cs" />
     <Compile Include="_Module\Entitly\PublishArticle.cs" />
     <Compile Include="_Module\Entitly\PushDraft.cs" />
     <Compile Include="_Module\Entitly\UserArticle.cs" />
