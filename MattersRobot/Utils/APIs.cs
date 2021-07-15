@@ -47,9 +47,9 @@ namespace MattersRobot.Utils
         public int afternoon = Int32.Parse(DateTime.Today.AddHours(15).AddMinutes(00).ToString("HHmmss"));//下午3點
         public int evening = Int32.Parse(DateTime.Today.AddHours(17).ToString("HHmmss"));//下午5點
         public int night = Int32.Parse(DateTime.Today.AddHours(20).AddMinutes(30).ToString("HHmmss"));//晚上3點30分
-        public const string UserName = "eddis61805";
+        public const string UserName = "";
         public string Account = $"{UserName}@gmail.com";
-        public const string Password = "tuba21031";
+        public const string Password = "";
         public static string token = "";
         public string parseToDec(double d)
         {
