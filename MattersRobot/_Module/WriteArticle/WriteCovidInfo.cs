@@ -7,6 +7,9 @@ using Nancy.Helpers;
 using Newtonsoft.Json;
 using System.Threading;
 using GraphQL;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace MattersRobot._Module.WriteArticle
 {
@@ -46,11 +49,14 @@ namespace MattersRobot._Module.WriteArticle
 
                 return;
             }
+            String imageLocalPath = Application.StartupPath + "\\cryptocurrency.jpg";
+            
 
             List<CovidInfo> covidInfo = JsonConvert.DeserializeObject<List<CovidInfo>>(jsonCovid);
             for (int i = 0; i < covidInfo.Count; i++)
             {
                 var item = covidInfo[i];
+                Console.WriteLine(item.CountryInfo.Flag);
                 var draftId = await GetMattersImage.getArticleId(getImageURL(item.CountryInfo.Flag), token);
                 Console.WriteLine(draftId.path);
 
@@ -68,20 +74,23 @@ namespace MattersRobot._Module.WriteArticle
                 WriteToFile(countriesLable[i] + "昨日確診: " + item.todayCases.ToString("N0") + ", 昨日死亡: " + item.todayDeaths.ToString("N0") + ",  更新時間: " + item.updated.ToString("yyyy-MM-dd, HH:mm:ss"));
 
             }
-
+            exportString.Append("<H1>各國確診曲線圖 </H1>");
+            exportString.Append(Fiddle.FiddleChart);
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " Covid-19各國確診數日報";
             exportString.Append("<hr/>");
             exportString.Append("<H1>資訊來源: </H1>");
             exportString.Append("<p>NovelCOVID API: <a href =https://github.com/disease-sh/API>" +
                   "https://documenter.getpostman.com/view/11144369/Szf6Z9B3?version=latest#a9a60f59-fde4-4e94-b1f1-a3cb92bd1046 </a></p>");
             string[] tags = { "COVID-19 各國疫情日報", "COVID-19", "COVID", "covid", "日報" };
-            respond.resCOVIDInfo(title, "本文為小農每日統整各國Covid-19資訊之報表數據", exportString, tags, token);
+
+            var coverPath = await GetMattersImage.getArticleId(getImageURL(CovidCover), token);
+            respond.resCOVIDInfo(coverPath.id,title, "本文為小農每日統整各國Covid-19資訊之報表數據", exportString, tags, token);
             tryErrorCount = 0;
         }
 
     }
     public interface COVIDRespond
     {
-        void resCOVIDInfo(string title, string summary, StringBuilder content, string[] tags, string token);
+        void resCOVIDInfo(string coverID,string title, string summary, StringBuilder content, string[] tags, string token);
     }
 }

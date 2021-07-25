@@ -1,10 +1,10 @@
 ﻿using MattersAutoClap._Module.Entity;
 using MattersRobot._Module.Action;
 using MattersRobot._Module.Entitly;
-using MattersRobot._Module.HttpConnect;
 using MattersRobot._Module.WriteArticle;
 using MattersRobot.Utils;
 using System;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -27,6 +27,7 @@ namespace MattersRobot
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 1000;  
             timer.Enabled = true;
+
             token = await login();
             //new WriteCovidInfo(token, this);
             //new WriteCurrency(token, this);
@@ -80,23 +81,23 @@ namespace MattersRobot
             return token;
         }        
         /**Currency Respond*/
-        public void currencyRes(string title, string summary, StringBuilder content, string[] tags, string token)
+        public void currencyRes(string coverID, string title, string summary, StringBuilder content, string[] tags, string token)
         {
-            pushArticle(title,summary,content,tags,token);
+            pushArticle(coverID,title,summary,content,tags,token);
             string finishInfo = "匯率發文於" + DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss") + "已完成\n  ";
             WriteToFile(finishInfo);
         }
 
-        public void resCOVIDInfo(string title, string summary, StringBuilder content, string[] tags, string token)
+        public void resCOVIDInfo(string coverID, string title, string summary, StringBuilder content, string[] tags, string token)
         {
-            pushArticle(title, summary, content,tags, token);
+            pushArticle(coverID,title, summary, content,tags, token);
             string finishInfo = "Covid發文於" + DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss") + "已完成\n  ";
             WriteToFile(finishInfo);
         }
-        private async void pushArticle(string title, string summary, StringBuilder content,string[] tags, string token)
+        private async void pushArticle(string coverID,string title, string summary, StringBuilder content,string[] tags, string token)
         {
             /**Push draft*/
-            string draftId = await PushDraft.getDraftId(putDraftGraphQL(title, summary, content.ToString(),tags), token);
+            string draftId = await PushDraft.getDraftId(putDraftGraphQL(coverID,title, summary, content.ToString(),tags), token);
             WriteToFile("草稿 ID: " + draftId);
             if (!Environment.UserInteractive)
             {

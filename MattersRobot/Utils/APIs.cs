@@ -41,16 +41,19 @@ namespace MattersRobot.Utils
         public const int tryLimit = 30;
         public string CovidData = $"https://corona.lmao.ninja/v2/countries/{countries}";    
         public const string baseAPI = "https://server.matters.news/graphql";
+        //public const string baseAPI = "https://server-test.matters.news/graphql";
         public int earlyMorning = Int32.Parse(DateTime.Today.AddHours(7).AddMinutes(00).ToString("HHmmss"));//早上7點00分
         public int morning = Int32.Parse(DateTime.Today.AddHours(10).AddMinutes(00).ToString("HHmmss"));//早上10點
         public int noon = Int32.Parse(DateTime.Today.AddHours(12).AddMinutes(00).ToString("HHmmss"));//中午12點
         public int afternoon = Int32.Parse(DateTime.Today.AddHours(15).AddMinutes(00).ToString("HHmmss"));//下午3點
         public int evening = Int32.Parse(DateTime.Today.AddHours(17).ToString("HHmmss"));//下午5點
         public int night = Int32.Parse(DateTime.Today.AddHours(20).AddMinutes(30).ToString("HHmmss"));//晚上3點30分
-        public const string UserName = "eddis61805";
+        public const string UserName = "";
         public string Account = $"{UserName}@gmail.com";
-        public const string Password = "tuba21031";
+        public const string Password = "";
         public static string token = "";
+        public const string CurrencyCover = "http://103.246.218.136/MyImage/cryptocurrency.jpg";
+        public const string CovidCover = "http://103.246.218.136/MyImage/covid19.jpg";
         public string parseToDec(double d)
         {
             return Decimal.Parse(d.ToString(), NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint).ToString();
@@ -101,19 +104,20 @@ namespace MattersRobot.Utils
             return request;
         }
 
-        public GraphQLRequest putDraftGraphQL(string title, string summary, string content, string[] tags)
+        public GraphQLRequest putDraftGraphQL(string coverID,string title, string summary, string content, string[] tags)
         {
             GraphQLRequest request = new GraphQLRequest
             {
                 Query = @"
-                mutation PutDraft($title:String!, $summary: String!, $content:String!,$tags:[String]){
-                    putDraft(input:{title:$title,summary:$summary,content:$content,tags:$tags}){
+                mutation PutDraft($cover:ID!,$title:String!, $summary: String!, $content:String!,$tags:[String]){
+                    putDraft(input:{cover:$cover ,title:$title,summary:$summary,content:$content,tags:$tags}){
                         id
                     }
                 }",
                 OperationName = "PutDraft",
                 Variables = new
                 {
+                    cover = coverID,
                     title = title,
                     summary = summary,
                     content = content,

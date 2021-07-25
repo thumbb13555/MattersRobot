@@ -100,12 +100,13 @@ namespace MattersRobot._Module.WriteArticle
             exportString.Append("<p>匯率資訊: <a href = " + '"' + "https://tw.rter.info/" + '"' + ">" + "即匯站</a></p>");
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " 今日虛擬幣與法幣匯率日報";
             string[] tags = {"LikeCoin","匯率","虛擬幣/法幣匯率日報", "日報" };
-            respond.currencyRes(title, "本文為小農每日統整各虛擬幣/各國匯率之報表數據", exportString,tags, token);
+            var coverPath = await GetMattersImage.getArticleId(getImageURL(CurrencyCover), token);
+            respond.currencyRes(coverPath.id,title, "本文為小農每日統整各虛擬幣/各國匯率之報表數據", exportString,tags, token);
         }
     }
 
     public interface CurrencyRespond
     {
-        void currencyRes(string title, string summary, StringBuilder content,string[] tags, string token);
+        void currencyRes(string coverID, string title, string summary, StringBuilder content,string[] tags, string token);
     }
 }
