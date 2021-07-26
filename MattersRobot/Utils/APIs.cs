@@ -34,14 +34,21 @@ namespace MattersRobot.Utils
             */
 
         public const string countries = "TW,US,JP,HK,CN,MY,SG,IN";
+        public const string currencyCode = "USD,TWD,JPY,HKD,CNY,MYR,SGD,INR";
         public string[] countriesLable = new string[] { "台灣", "美國", "日本", "香港", "中國", "馬來西亞", "新加坡", "印度" };
-        public const string GetCurrency = "https://tw.rter.info/capi.php";
+        public string[] currencyCountriesLable = new string[] { "台幣", "美元", "日元", "港幣", "人民幣", "令吉", "新加坡幣", "印度盧比" };
+        public string[] currencyCodeArray = currencyCode.Split(',');
+        private const string currencyAccessKey = "403e25f74871138acc22876a32d5903a";
         public const string CoinKey = "53bc319d-7249-49da-b89f-672730481632";
+        public const string GetCurrency = "https://tw.rter.info/capi.php";
+        public string currencyBase = $"https://data.fixer.io/api/latest?access_key={currencyAccessKey}" +
+            "&base={0}" +
+            $"&symbols={currencyCode}";
+        
         public const string GetPriceConversion = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion";//價格換算
         public const int tryLimit = 30;
         public string CovidData = $"https://corona.lmao.ninja/v2/countries/{countries}";    
         public const string baseAPI = "https://server.matters.news/graphql";
-        //public const string baseAPI = "https://server-test.matters.news/graphql";
         public int earlyMorning = Int32.Parse(DateTime.Today.AddHours(7).AddMinutes(00).ToString("HHmmss"));//早上7點00分
         public int morning = Int32.Parse(DateTime.Today.AddHours(10).AddMinutes(00).ToString("HHmmss"));//早上10點
         public int noon = Int32.Parse(DateTime.Today.AddHours(12).AddMinutes(00).ToString("HHmmss"));//中午12點
