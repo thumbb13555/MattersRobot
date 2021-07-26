@@ -74,8 +74,8 @@ namespace MattersRobot._Module.WriteArticle
                 WriteToFile(countriesLable[i] + "昨日確診: " + item.todayCases.ToString("N0") + ", 昨日死亡: " + item.todayDeaths.ToString("N0") + ",  更新時間: " + item.updated.ToString("yyyy-MM-dd, HH:mm:ss"));
 
             }
-            exportString.Append("<H1>各國確診曲線圖 </H1>");
-            exportString.Append(Fiddle.FiddleChart);
+            //exportString.Append("<H1>各國確診曲線圖 </H1>");
+            //exportString.Append(Fiddle.FiddleChart);
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " Covid-19各國確診數日報";
             exportString.Append("<hr/>");
             exportString.Append("<H1>資訊來源: </H1>");
