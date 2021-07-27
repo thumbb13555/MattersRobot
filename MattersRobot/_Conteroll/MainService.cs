@@ -105,6 +105,7 @@ namespace MattersRobot
                 string articleId = await PublishArticle.getArticleId(publishArticle(draftId), token);
                 WriteToFile("文章上傳成功，ID為 : " + articleId + "\n   ");
             }
+            
         }
     }
 }

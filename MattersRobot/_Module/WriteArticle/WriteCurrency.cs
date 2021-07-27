@@ -27,69 +27,44 @@ namespace MattersRobot._Module.WriteArticle
 
             /**Http query setting*/
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-            queryString["amount"] = "1";
+            
             queryString["id"] = "2909";
-
             exportString.Append("<h1>今日Likecoin-法幣匯率</h1>");
+
             /**GetCoinPrice(Like2USD2~~)*/
             /**Get all currency info*/
             queryString["convert"] = "USD";
-
             String usdAPI = String.Format(currencyBase, "USD");
             string jsonUSD = await HttpConnect.HttpConnect.sendGet(usdAPI);
             Currency usdCurrency = JsonConvert.DeserializeObject<Currency>(jsonUSD);
 
-            string jsonLike2Usd = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
+            string jsonLike2Usd = HttpConnect.HttpConnect.sendGet(GetQuotes, queryString);
             Like2USD priceLike2USD = JsonConvert.DeserializeObject<Like2USD>(jsonLike2Usd);
-            double like2Usd = priceLike2USD.data.quote.usd.price;
+            double like2Usd = priceLike2USD.data.coin.quote.USD.price;
             WriteToFile($"取得報價: 1Like = {like2Usd}/USD");
-            exportString.Append($"<p><strong>1Like = US${like2Usd.ToString("f4")} (美金)</strong><br>" +
-                $"≈ NT$ {(like2Usd * usdCurrency.rates.TWD).ToString("f3")} (台幣)<br class=smart>" +
-                $"≈ ¥ {(like2Usd * usdCurrency.rates.JPY).ToString("f3")} (日幣)<br  class=smart>" +
-                $"≈ HK$ {(like2Usd * usdCurrency.rates.HKD).ToString("f3")} (港幣)<br class=smart>" +
-                $"≈ RMB￥ {(like2Usd * usdCurrency.rates.CNY).ToString("f3")} (人民幣)<br class=smart>" +
-                $"≈ RM {(like2Usd * usdCurrency.rates.MYR).ToString("f3")} (令吉)<br class=smart>" +
-                $"≈ S$ {(like2Usd * usdCurrency.rates.SGD).ToString("f3")} (新加坡幣)<br class=smart>" +
-                $"≈ ₹ {(like2Usd * usdCurrency.rates.INR).ToString("f3")} (印度盧比)<br>" +
+            exportString.Append($"<p><strong>1Like = US${like2Usd.ToString("f4")} ({currencyCountriesLable[0]})</strong><br>" +
+                $"≈ NT$ {(like2Usd * usdCurrency.rates.TWD).ToString("f3")} ({currencyCountriesLable[1]})<br class=smart>" +
+                $"≈ ¥ {(like2Usd * usdCurrency.rates.JPY).ToString("f3")} ({currencyCountriesLable[2]})<br  class=smart>" +
+                $"≈ HK$ {(like2Usd * usdCurrency.rates.HKD).ToString("f3")} ({currencyCountriesLable[3]})<br class=smart>" +
+                $"≈ RMB￥ {(like2Usd * usdCurrency.rates.CNY).ToString("f3")} ({currencyCountriesLable[4]})<br class=smart>" +
+                $"≈ RM {(like2Usd * usdCurrency.rates.MYR).ToString("f3")} ({currencyCountriesLable[5]})<br class=smart>" +
+                $"≈ S$ {(like2Usd * usdCurrency.rates.SGD).ToString("f3")} ({currencyCountriesLable[6]})<br class=smart>" +
+                $"≈ ₹ {(like2Usd * usdCurrency.rates.INR).ToString("f3")} ({currencyCountriesLable[7]})<br>" +
                 $"</p>");
             exportString.Append("<hr/>");
 
             exportString.Append("<h1>今日Likecoin-其他虛擬幣匯率</h1>");
             /**GetCoinPrice(Like2BTC)*/
-            queryString["convert"] = "BTC";
-            string jsonBtc = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
-            Like2BTC priceLike2BTC = JsonConvert.DeserializeObject<Like2BTC>(jsonBtc);
-            string like2Btc = parseToDec(priceLike2BTC.data.quote.Btc.price);
-            WriteToFile($"取得報價: 1Like = {like2Btc}/BTC");
-            exportString.Append($"1Like = {like2Btc} /BTC<br>");
-
+            exportString.Append(GetLike2BTC(queryString,"BTC"));
             /**GetCoinPrice(Like2ETH)*/
-            queryString["convert"] = "ETH";
-            string jsonETH = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
-            Like2ETH priceLike2ETH = JsonConvert.DeserializeObject<Like2ETH>(jsonETH);
-            string like2ETH = parseToDec(priceLike2ETH.data.quote.Eth.price);
-            WriteToFile($"取得報價: 1Like = {like2ETH}/ETH");
-            exportString.Append($"1Like = {like2ETH} /ETH<br>");
-
+            exportString.Append(GetLike2ETH(queryString,"ETH"));
             /**GetCoinPrice(Like2STEEM)*/
-            queryString["convert"] = "STEEM";
-            string jsonSTEEM = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
-            Like2STEEM priceLike2STEEM = JsonConvert.DeserializeObject<Like2STEEM>(jsonSTEEM);
-            string like2STEEM = parseToDec(priceLike2STEEM.data.quote.Steem.price);
-            WriteToFile($"取得報價: 1Like = {like2STEEM}/STEEM");
-            exportString.Append($"1Like = {like2STEEM} /STEEM<br>");
-
+            exportString.Append(GetLike2STEEM(queryString,"STEEM"));
             /**GetCoinPrice(Like2USDT)*/
-            queryString["convert"] = "USDT";
-            string jsonUSDT = HttpConnect.HttpConnect.sendGet(GetPriceConversion, queryString);
-            Like2USDT priceLike2USDT = JsonConvert.DeserializeObject<Like2USDT>(jsonUSDT);
-            string like2USDT = parseToDec(priceLike2USDT.data.quote.Usdt.price);
-            WriteToFile($"取得報價: 1Like = {like2USDT}/USDT");
-            exportString.Append($"1Like = {like2USDT} /USDT<br>");
+            exportString.Append(GetLike2USDT(queryString,"USDT"));
             exportString.Append("<hr/>");
 
             exportString.Append("<h1>今日法幣匯率</h1>");
-
             for (int i = 0; i < currencyCodeArray.Length; i++)
             {
                 exportString.Append($"<h1>{countriesLable[i]}</h1>");
@@ -98,13 +73,14 @@ namespace MattersRobot._Module.WriteArticle
                 string jsonCurrency = await HttpConnect.HttpConnect.sendGet(sendAPI);
                 Currency currency = JsonConvert.DeserializeObject<Currency>(jsonCurrency);
                 exportString.Append($"<p><strong>1{currencyCountriesLable[i]}</strong><br class=smart>" +
-                $"≈ NT$ {(currency.rates.TWD).ToString("f5")} (台幣)<br class=smart>" +
-                $"≈ ¥ {(currency.rates.JPY).ToString("f5")} (日幣)<br  class=smart>" +
-                $"≈ HK$ {(currency.rates.HKD).ToString("f5")} (港幣)<br class=smart>" +
-                $"≈ RMB￥ {(currency.rates.CNY).ToString("f5")} (人民幣)<br class=smart>" +
-                $"≈ RM {(currency.rates.MYR).ToString("f5")} (令吉)<br class=smart>" +
-                $"≈ S$ {(currency.rates.SGD).ToString("f5")} (新加坡幣)<br class=smart>" +
-                $"≈ ₹ {(currency.rates.INR).ToString("f5")} (印度盧比)<br>" +
+                $"≈ US$ {(currency.rates.USD).ToString("f5")} ({currencyCountriesLable[0]})<br class=smart>" +
+                $"≈ NT$ {(currency.rates.TWD).ToString("f5")} ({currencyCountriesLable[1]})<br class=smart>" +
+                $"≈ ¥ {(currency.rates.JPY).ToString("f5")} ({currencyCountriesLable[2]})<br  class=smart>" +
+                $"≈ HK$ {(currency.rates.HKD).ToString("f5")} ({currencyCountriesLable[3]})<br class=smart>" +
+                $"≈ RMB￥ {(currency.rates.CNY).ToString("f5")} ({currencyCountriesLable[4]})<br class=smart>" +
+                $"≈ RM {(currency.rates.MYR).ToString("f5")} ({currencyCountriesLable[5]})<br class=smart>" +
+                $"≈ S$ {(currency.rates.SGD).ToString("f5")} ({currencyCountriesLable[6]})<br class=smart>" +
+                $"≈ ₹ {(currency.rates.INR).ToString("f5")} ({currencyCountriesLable[7]})<br>" +
                 $"</p>");
                 WriteToFile($"已取得{countriesLable[i]}報價");
             }
@@ -120,7 +96,101 @@ namespace MattersRobot._Module.WriteArticle
             string title = DateTime.Now.ToString("yyyy-MM-dd") + " 今日虛擬幣與法幣匯率日報";
             string[] tags = { "LikeCoin", "匯率", "虛擬幣/法幣匯率日報", "日報" };
             var coverPath = await GetMattersImage.getArticleId(getImageURL(CurrencyCover), token);
+            WriteToFile($"封面ID: {coverPath.id}");
+            WriteToFile($"封面連結: {coverPath.path}");
             respond.currencyRes(coverPath.id,title, "本文為小農每日統整各虛擬幣/各國匯率之報表數據", exportString,tags, token);
+        }//
+        /**GetCoinPrice(Like2BTC)*/
+        private string GetLike2BTC(System.Collections.Specialized.NameValueCollection queryString,string coin)
+        {
+            StringBuilder exportString = new StringBuilder();
+            queryString["convert"] = coin;
+            string json = HttpConnect.HttpConnect.sendGet(GetQuotes, queryString);
+            Like2BTC price = JsonConvert.DeserializeObject<Like2BTC>(json);
+            Like2BTC.BTC info = price.data.coin.quote.BTC;
+            WriteToFile($"取得報價: 1Like = {parseToDec(info.price)}/{coin}");
+            exportString.Append($"<h1>Likecoin - 比特幣({coin})</h1>");
+            exportString.Append("<p>");
+            exportString.Append($"<strong>1Like = {parseToDec(info.price)} /{coin}</strong><br class=smart>");
+            exportString.Append($"24小時價格走勢{percentagePoint(info.percent_change_24h)}<br class=smart>");
+            exportString.Append($"7天價格走勢{percentagePoint(info.percent_change_7d)}<br class=smart>");
+            exportString.Append($"1個月價格走勢{percentagePoint(info.percent_change_30d)}<br class=smart>");
+            exportString.Append($"2個月價格走勢{percentagePoint(info.percent_change_60d)}<br class=smart>");
+            exportString.Append($"3個月價格走勢{percentagePoint(info.percent_change_90d)}<br class=smart>");
+            exportString.Append("</p>");
+            return exportString.ToString();
+        }
+        private string GetLike2ETH(System.Collections.Specialized.NameValueCollection queryString, string coin)
+        {
+            StringBuilder exportString = new StringBuilder();
+            queryString["convert"] = coin;
+            string json = HttpConnect.HttpConnect.sendGet(GetQuotes, queryString);
+            Like2ETH price = JsonConvert.DeserializeObject<Like2ETH>(json);
+            Like2ETH.ETH info = price.data.coin.quote.ETH;
+            WriteToFile($"取得報價: 1Like = {parseToDec(info.price)}/{coin}");
+            exportString.Append($"<h1>Likecoin - 乙太幣({coin})</h1>");
+            exportString.Append("<p>");
+            exportString.Append($"<strong>1Like = {parseToDec(info.price)} /{coin}</strong><br class=smart>");
+            exportString.Append($"24小時價格走勢{percentagePoint(info.percent_change_24h)}<br class=smart>");
+            exportString.Append($"7天價格走勢{percentagePoint(info.percent_change_7d)}<br class=smart>");
+            exportString.Append($"1個月價格走勢{percentagePoint(info.percent_change_30d)}<br class=smart>");
+            exportString.Append($"2個月價格走勢{percentagePoint(info.percent_change_60d)}<br class=smart>");
+            exportString.Append($"3個月價格走勢{percentagePoint(info.percent_change_90d)}<br class=smart>");
+            exportString.Append("</p>");
+            return exportString.ToString();
+        }
+        private string GetLike2STEEM(System.Collections.Specialized.NameValueCollection queryString, string coin)
+        {
+            StringBuilder exportString = new StringBuilder();
+            queryString["convert"] = coin;
+            string json = HttpConnect.HttpConnect.sendGet(GetQuotes, queryString);
+            Like2STEEM price = JsonConvert.DeserializeObject<Like2STEEM>(json);
+            Like2STEEM.STEEM info = price.data.coin.quote.STEEM;
+            WriteToFile($"取得報價: 1Like = {parseToDec(info.price)}/{coin}");
+            exportString.Append($"<h1>Likecoin - {coin}</h1>");
+            exportString.Append("<p>");
+            exportString.Append($"<strong>1Like = {parseToDec(info.price)} /{coin}</strong><br class=smart>");
+            exportString.Append($"24小時價格走勢{percentagePoint(info.percent_change_24h)}<br class=smart>");
+            exportString.Append($"7天價格走勢{percentagePoint(info.percent_change_7d)}<br class=smart>");
+            exportString.Append($"1個月價格走勢{percentagePoint(info.percent_change_30d)}<br class=smart>");
+            exportString.Append($"2個月價格走勢{percentagePoint(info.percent_change_60d)}<br class=smart>");
+            exportString.Append($"3個月價格走勢{percentagePoint(info.percent_change_90d)}<br class=smart>");
+            exportString.Append("</p>");
+            return exportString.ToString();
+        }
+        private string GetLike2USDT(System.Collections.Specialized.NameValueCollection queryString, string coin)
+        {
+            StringBuilder exportString = new StringBuilder();
+            queryString["convert"] = coin;
+            string json = HttpConnect.HttpConnect.sendGet(GetQuotes, queryString);
+            Like2USDT price = JsonConvert.DeserializeObject<Like2USDT>(json);
+            Like2USDT.USDT info = price.data.coin.quote.USDT;
+            WriteToFile($"取得報價: 1Like = {parseToDec(info.price)}/{coin}");
+            exportString.Append($"<h1>Likecoin - 泰達幣({coin})</h1>");
+            exportString.Append("<p>");
+            exportString.Append($"<strong>1Like = {parseToDec(info.price)} /{coin}</strong><br class=smart>");
+            exportString.Append($"24小時價格走勢{percentagePoint(info.percent_change_24h)}<br class=smart>");
+            exportString.Append($"7天價格走勢{percentagePoint(info.percent_change_7d)}<br class=smart>");
+            exportString.Append($"1個月價格走勢{percentagePoint(info.percent_change_30d)}<br class=smart>");
+            exportString.Append($"2個月價格走勢{percentagePoint(info.percent_change_60d)}<br class=smart>");
+            exportString.Append($"3個月價格走勢{percentagePoint(info.percent_change_90d)}<br class=smart>");
+            exportString.Append("</p>");
+            return exportString.ToString();
+        }
+
+        private string percentagePoint(double d)
+        {
+            if (d>0)
+            {
+                return " 上漲▲ " + d.ToString("f2") + "%";
+            }
+            else if(d<0){
+                return " 下跌▼ " + d.ToString("f2") + "%";
+            }
+            else
+            {
+                return d.ToString("f2") + "%";
+            }
         }
     }
 

@@ -82,8 +82,9 @@ namespace MattersRobot._Module.WriteArticle
             exportString.Append("<p>NovelCOVID API: <a href =https://github.com/disease-sh/API>" +
                   "https://documenter.getpostman.com/view/11144369/Szf6Z9B3?version=latest#a9a60f59-fde4-4e94-b1f1-a3cb92bd1046 </a></p>");
             string[] tags = { "COVID-19 各國疫情日報", "COVID-19", "COVID", "covid", "日報" };
-
             var coverPath = await GetMattersImage.getArticleId(getImageURL(CovidCover), token);
+            WriteToFile($"封面ID: {coverPath.id}");
+            WriteToFile($"封面連結: {coverPath.path}");
             respond.resCOVIDInfo(coverPath.id,title, "本文為小農每日統整各國Covid-19資訊之報表數據", exportString, tags, token);
             tryErrorCount = 0;
         }

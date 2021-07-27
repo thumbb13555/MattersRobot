@@ -33,10 +33,10 @@ namespace MattersRobot.Utils
         SG
             */
 
-        public const string countries = "TW,US,JP,HK,CN,MY,SG,IN";
+        public const string countries = "US,TW,JP,HK,CN,MY,SG,IN";
         public const string currencyCode = "USD,TWD,JPY,HKD,CNY,MYR,SGD,INR";
-        public string[] countriesLable = new string[] { "台灣", "美國", "日本", "香港", "中國", "馬來西亞", "新加坡", "印度" };
-        public string[] currencyCountriesLable = new string[] { "台幣", "美元", "日元", "港幣", "人民幣", "令吉", "新加坡幣", "印度盧比" };
+        public string[] countriesLable = new string[] { "美國", "台灣",  "日本", "香港", "中國", "馬來西亞", "新加坡", "印度" };
+        public string[] currencyCountriesLable = new string[] { "美元", "台幣",  "日元", "港幣", "人民幣", "馬來西亞林吉特", "新加坡幣", "印度盧比" };
         public string[] currencyCodeArray = currencyCode.Split(',');
         private const string currencyAccessKey = "403e25f74871138acc22876a32d5903a";
         public const string CoinKey = "53bc319d-7249-49da-b89f-672730481632";
@@ -46,6 +46,7 @@ namespace MattersRobot.Utils
             $"&symbols={currencyCode}";
         
         public const string GetPriceConversion = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion";//價格換算
+        public const string GetQuotes = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";//價格換算
         public const int tryLimit = 30;
         public string CovidData = $"https://corona.lmao.ninja/v2/countries/{countries}";    
         public const string baseAPI = "https://server.matters.news/graphql";
