@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -109,6 +111,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +138,9 @@
     <Compile Include="_Module\Action\AppreciateFollowers.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="_Module\Action\Donate.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="_Module\Entitly\AppreciateInfo.cs" />
     <Compile Include="_Module\Entitly\CoinCollect\Currency.cs" />
     <Compile Include="_Module\Entitly\CoinCollect\Like2BTC.cs" />
@@ -141,17 +149,23 @@
     <Compile Include="_Module\Entitly\CoinCollect\Like2USD.cs" />
     <Compile Include="_Module\Entitly\CoinCollect\Like2USDT.cs" />
     <Compile Include="_Module\Entitly\CovidInfo.cs" />
+    <Compile Include="_Module\Entitly\DonateLink.cs" />
     <Compile Include="_Module\Entitly\FollowersInfo.cs" />
     <Compile Include="_Module\Entitly\GraphQLHttpClient.cs" />
     <Compile Include="_Module\Entitly\GraphQLRespond.cs" />
     <Compile Include="_Module\Entitly\Login.cs" />
+    <Compile Include="_Module\Entitly\MonthlyInfo.cs" />
     <Compile Include="_Module\Entitly\PriceConvert.cs" />
     <Compile Include="_Module\Entitly\GetMattersImage.cs" />
     <Compile Include="_Module\Entitly\PublishArticle.cs" />
     <Compile Include="_Module\Entitly\PushDraft.cs" />
+    <Compile Include="_Module\Entitly\RankEntity.cs" />
     <Compile Include="_Module\Entitly\UserArticle.cs" />
     <Compile Include="_Module\HttpConnect\HttpConnect.cs" />
     <Compile Include="_Module\WriteArticle\WriteCovidInfo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="_Module\WriteArticle\WriteMonthlyReport.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="_Module\WriteArticle\WriteCurrency.cs">
@@ -176,4 +190,11 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets" Condition="Exists('..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets'))" />
+  </Target>
 </Project>

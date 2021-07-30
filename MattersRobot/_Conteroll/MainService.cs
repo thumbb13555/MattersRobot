@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace MattersRobot
 {
-    public partial class MainService : APIs, CurrencyRespond, COVIDRespond
+    public partial class MainService : APIs, CurrencyRespond, COVIDRespond, MonthlyReportRespond
     {
         
         Timer timer = new Timer();
@@ -28,10 +28,12 @@ namespace MattersRobot
             timer.Interval = 1000;  
             timer.Enabled = true;
 
-            token = await login();
+            //token = await login();
             //new WriteCovidInfo(token, this);
             //new WriteCurrency(token, this);
             //new AppreciateFollowers(UserName, token);
+            //new Donate(token);
+            new WriteMonthlyReport(token,this);
         }
         protected override void OnStop()
         {
@@ -106,6 +108,11 @@ namespace MattersRobot
                 WriteToFile("文章上傳成功，ID為 : " + articleId + "\n   ");
             }
             
+        }
+
+        public void monthlyReportRespond(string coverID, string title, string summary, StringBuilder content, string[] tags, string token)
+        {
+            throw new NotImplementedException();
         }
     }
 }
