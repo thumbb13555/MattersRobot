@@ -24,14 +24,23 @@ namespace MattersRobot._Module.Action
         {
             List<string> nameList = await getFollwers();
             WriteToFile($"追蹤我的人共: {nameList.Count}位");
-            List<string> articleId = await getArticleId(nameList);
-            bool isFinish = await appreciateFollowers(articleId);
-            if (isFinish)
+            try
             {
-                string finishInfo = "拍手程序於"+DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss")+"已完成\n  ";
-                WriteToFile(finishInfo);
+                List<string> articleId = await getArticleId(nameList);
+                bool isFinish = await appreciateFollowers(articleId);
+                if (isFinish)
+                {
+                    string finishInfo = "拍手程序於" + DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss") + "已完成\n  ";
+                    WriteToFile(finishInfo);
+                }
             }
-
+            catch(Exception e)
+            {
+                Console.WriteLine("拍手程序失敗");
+                WriteToFile("拍手程序失敗");
+                return;
+            }
+            
         }
         /**Catch all of followers*/
         private async Task<List<string>> getFollwers()
@@ -48,9 +57,9 @@ namespace MattersRobot._Module.Action
                 {
                     Console.WriteLine(name[i].node.userName);
                     follwersName.Add(name[i].node.userName);
+                    Thread.Sleep(10);
                 }
                 if (!hasNext) break;
-                Thread.Sleep(500);
             }
             return follwersName;
         }
@@ -77,13 +86,17 @@ namespace MattersRobot._Module.Action
 
                     for (int j = 0; j < edges.Count; j++)
                     {
-                        bool isAppreciate = edges[j].node.hasAppreciate;
+                        Console.WriteLine("\t搜尋文章: "+ edges[j].node.title);
+                        bool isAppreciate = (edges[j].node.appreciateLeft)== 0;
+                        
                         if (!isAppreciate)
                         {
                             articleId.Add(edges[j].node.id);
+                            Console.WriteLine("有拍過? " + isAppreciate);
                             Console.WriteLine($"即將拍手: {nameList[i]}的 " + edges[j].node.title);
                             break;
                         }
+                        Console.WriteLine("有拍過? " + isAppreciate);
                     }
                     if (!hasNext) break;
                 }
@@ -105,7 +118,7 @@ namespace MattersRobot._Module.Action
                 {
                     Console.WriteLine("已拍手: " + info.Data.appreciateArticle.title);
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(5);
             }
             return true;
         }

@@ -162,23 +162,23 @@ namespace MattersRobot.Utils
             GraphQLRequest request = new GraphQLRequest
             {
                 Query = @"
-                query GetUserAericle($username:String!, $cursor:String!){
-                  user(input:{userName : $username}){
-                    articles(input:{after : $cursor}){
-                      pageInfo{
+                query GetUserAericle($username: String!, $cursor: String!) {
+                  user(input: { userName: $username }) {
+                    articles(input: { after: $cursor }) {
+                      pageInfo {
                         endCursor
                         hasNextPage
                       }
-                      edges{
-                        node{
+                      edges {
+                        node {
                           id
                           title
-                          hasAppreciate#是否已拍手
-          
+                          hasAppreciate #是否已拍手
+                          appreciateLeft
                         }
                       }
                     }
-	              }
+                  }
                 }",
                 OperationName = "GetUserAericle",
                 Variables = new

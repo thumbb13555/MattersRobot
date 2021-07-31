@@ -57,9 +57,9 @@ namespace MattersRobot
             }
             else if (now == morning || now == afternoon || now == night)
             {
-                /*token = await login();
+                token = await login();
                 WriteToFile("\nAppreciate article");
-                new AppreciateFollowers(UserName, token);*/
+                new AppreciateFollowers(UserName, token);
             }
 
 

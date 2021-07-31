@@ -34,6 +34,7 @@ namespace MattersRobot._Module.Entitly
             public string id { get; set; }
             public string title { get; set; }
             public bool hasAppreciate { get; set; }
+            public int appreciateLeft { get; set; }
         }
 
         public class Edge
