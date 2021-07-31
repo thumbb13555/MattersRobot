@@ -56,9 +56,9 @@ namespace MattersRobot.Utils
         public int afternoon = Int32.Parse(DateTime.Today.AddHours(15).AddMinutes(00).ToString("HHmmss"));//下午3點
         public int evening = Int32.Parse(DateTime.Today.AddHours(17).ToString("HHmmss"));//下午5點
         public int night = Int32.Parse(DateTime.Today.AddHours(20).AddMinutes(30).ToString("HHmmss"));//晚上3點30分
-        public const string UserName = "";
+        public const string UserName = "eddis61805";
         public string Account = $"{UserName}@gmail.com";
-        public const string Password = "";
+        public const string Password = "tuba21031";
         public static string token = "";
         public const string CurrencyCover = "http://103.246.218.136/MyImage/cryptocurrency.jpg";
         public const string CovidCover = "http://103.246.218.136/MyImage/covid19.jpg";
@@ -94,20 +94,11 @@ namespace MattersRobot.Utils
         }
         public GraphQLRequest loginGraphQL(string email, string password)
         {
+            string s = @"mutation Login{userLogin(input:{email:" + '"' + email + '"' + ",password:" + '"' + password + '"' + "}){token}}";
             GraphQLRequest request = new GraphQLRequest
             {
-                Query = @"
-                mutation Login($email:EmailAddress!, $password:String!){
-                  userLogin(input:{email:$email,password:$password}){
-                    token
-                  }
-                }",
+                Query = s,
                 OperationName = "Login",
-                Variables = new
-                {
-                    email = email,
-                    password = password
-                }
             };
             return request;
         }
@@ -203,8 +194,8 @@ namespace MattersRobot.Utils
             GraphQLRequest request = new GraphQLRequest
             {
                 Query = @"
-                 mutation AppreciateArticle($id:ID!, $amount:PositiveInt!){
-                   appreciateArticle(input:{id: $id, amount:$amount}){
+                 mutation AppreciateArticle($id:ID!){
+                   appreciateArticle(input:{id: $id, amount:5}){
                      id
                      title
                    }
@@ -212,8 +203,7 @@ namespace MattersRobot.Utils
                 OperationName = "AppreciateArticle",
                 Variables = new
                 {
-                    id = id,
-                    amount = 5
+                    id = id
                 }
             };
             return request;
@@ -245,17 +235,15 @@ namespace MattersRobot.Utils
             GraphQLRequest request = new GraphQLRequest
             {
                 Query = @"
-                mutation GetMatterImageId($url:URL){
-                  singleFileUpload(input:{type:embed, entityType:user,url:$url}){
-                    id
-                    path
-                  }
-                }",
+                mutation GetMatterImageId{
+                  singleFileUpload(input:{type:embed, entityType:user,url:"+'"'+url+'"'+"}){" +
+                  "id " +
+                  "path}}",
                 OperationName = "GetMatterImageId",
-                Variables = new
+                /*Variables = new
                 {
                     url = url
-                }
+                }*/
             };
             return request;
         }//
