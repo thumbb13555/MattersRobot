@@ -247,5 +247,105 @@ namespace MattersRobot.Utils
             };
             return request;
         }//
+        public GraphQLRequest getPayToLink(string amount, string recipientId, string targetId)
+        {
+            //recipientId 作者ID
+            //targetId 文章ID
+            GraphQLRequest request = new GraphQLRequest
+            {
+                Query = @"
+                mutation Pay($amount:PositiveFloat!,$recipientId:ID!,$targetId:ID!){
+                  payTo (input:{amount:$amount,currency:LIKE, purpose:donation,recipientId:$recipientId,targetId:$targetId}){
+                    redirectUrl
+                  }
+                }",
+                OperationName = "Pay",
+                Variables = new
+                {
+                    amount = amount,
+                    recipientId = recipientId,
+                    targetId = targetId
+                }
+            };
+            return request;
+        }//
+        public GraphQLRequest getAllArticleHash(string account, string artCursor) { 
+            GraphQLRequest request = new GraphQLRequest
+            {
+                Query = @"
+                query AllArticle($account: String!,$artCursor:String) {
+                  user(input: { userName: $account }) {
+                    articles(input: { after: $artCursor }) {
+                      pageInfo {
+                        startCursor
+                        hasNextPage
+                        endCursor
+                        hasPreviousPage
+                      }
+                      edges {
+                        node {
+                          title
+                          id
+                          mediaHash
+                          createdAt
+                          state
+                        }
+                      }
+                    }
+                  }
+                }
+                ",
+                OperationName = "AllArticle",
+                Variables = new
+                {
+                    account = account,
+                    artCursor = artCursor
+                }
+            };
+            return request;
+        }//
+        public GraphQLRequest getArticleInfo(string mediaHash, string appCursor)
+        {
+            GraphQLRequest request = new GraphQLRequest
+            {
+                Query = @"
+                 query ArticleInfo($mediaHash: String!, $appCursor: String!) {
+                  article(input: { mediaHash: $mediaHash }) {
+                    title
+                    id
+                    createdAt
+                    #拍手數
+                    appreciationsReceivedTotal
+                    #給我拍手的人
+                    appreciationsReceived(input: { after: $appCursor }) {
+                      pageInfo {
+                        startCursor
+                        hasNextPage
+                        endCursor
+                        hasPreviousPage
+                      }
+                      edges {
+                        node {
+                          sender {
+                            id
+                            displayName
+                            userName
+                          }
+                          amount
+                        }
+                      }
+                    }
+                  }
+                }
+                ",
+                OperationName = "ArticleInfo",
+                Variables = new
+                {
+                   mediaHash = mediaHash,
+                   appCursor = appCursor
+                }
+            };
+            return request;
+        }//
     }
 }
