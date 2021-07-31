@@ -50,6 +50,7 @@ namespace MattersRobot._Module.Action
                     follwersName.Add(name[i].node.userName);
                 }
                 if (!hasNext) break;
+                Thread.Sleep(500);
             }
             return follwersName;
         }
@@ -104,6 +105,7 @@ namespace MattersRobot._Module.Action
                 {
                     Console.WriteLine("已拍手: " + info.Data.appreciateArticle.title);
                 }
+                Thread.Sleep(2000);
             }
             return true;
         }

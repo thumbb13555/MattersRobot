@@ -33,7 +33,7 @@ namespace MattersRobot
             //new WriteCurrency(token, this);
             //new AppreciateFollowers(UserName, token);
             //new Donate(token);
-            new WriteMonthlyReport(token,this);
+            //new WriteMonthlyReport(token,this);
         }
         protected override void OnStop()
         {
@@ -44,19 +44,22 @@ namespace MattersRobot
             int now = Int32.Parse(DateTime.Now.ToString("HHmmss"));
             if(now == earlyMorning)
             {
+                token = await login();
                 WriteToFile("\nPublish covid-19 info article");
                 new WriteCovidInfo(token, this);
             }
 
             else if(now == noon)
             {
+                token = await login();
                 WriteToFile("\nPublish currency article");
                 new WriteCurrency(token, this);
             }
             else if (now == morning || now == afternoon || now == night)
             {
+                /*token = await login();
                 WriteToFile("\nAppreciate article");
-                new AppreciateFollowers(UserName, token);
+                new AppreciateFollowers(UserName, token);*/
             }
 
 

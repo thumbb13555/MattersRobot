@@ -24,6 +24,7 @@ namespace MattersRobot._Module.Entitly
             }
             catch(Exception e)
             {
+                Console.WriteLine($"拍手過程出錯，原因: {e.Message}");
                 APIs.WriteToFile($"拍手過程出錯，原因: {e.Message}");
                 return null;
             }
