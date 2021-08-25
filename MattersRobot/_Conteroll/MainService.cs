@@ -27,6 +27,7 @@ namespace MattersRobot
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 1000;  
             timer.Enabled = true;
+            WriteToFile("檢查輸出帳密: "+Account+", "+Password);
 
             //token = await login();
             //new WriteCovidInfo(token, this);
