@@ -141,6 +141,9 @@
     <Compile Include="_Module\Action\Donate.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="_Module\Action\UpdateCoinPrice.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="_Module\Entitly\AppreciateInfo.cs" />
     <Compile Include="_Module\Entitly\CoinCollect\Currency.cs" />
     <Compile Include="_Module\Entitly\CoinCollect\Like2BTC.cs" />

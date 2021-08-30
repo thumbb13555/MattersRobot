@@ -35,6 +35,7 @@ namespace MattersRobot
             //new AppreciateFollowers(UserName, token);
             //new Donate(token);
             //new WriteMonthlyReport(token,this);
+            //new UpdateCoinPrice();
         }
         protected override void OnStop()
         {
@@ -69,6 +70,8 @@ namespace MattersRobot
             {
                 reportCount = 0;
                 WriteToFile("定時回報: 於" + DateTime.Now+"服務器運作正常");
+                //每小時更新幣價
+                new UpdateCoinPrice();
             }
         }
 

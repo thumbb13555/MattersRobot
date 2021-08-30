@@ -22,6 +22,7 @@ namespace MattersRobot.Utils
             CNY(人民幣)
             MYR(馬來西亞林吉特)
             SGD(新加坡)
+            INR(印度)
 
         國家代號
         TW
@@ -62,6 +63,8 @@ namespace MattersRobot.Utils
         public static string token = "";
         public const string CurrencyCover = "http://103.246.218.136/MyImage/cryptocurrency.jpg";
         public const string CovidCover = "http://103.246.218.136/MyImage/covid19.jpg";
+        public const string InsertCoinInfo = "https://www.codernoah.tw/Balance/Insert";
+        public const string SearchCoinInfo = "https://www.codernoah.tw/Balance/Search";
         public string parseToDec(double d)
         {
             return Decimal.Parse(d.ToString(), NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint).ToString();
