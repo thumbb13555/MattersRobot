@@ -57,7 +57,7 @@ namespace MattersRobot
                 WriteToFile("\nPublish currency article");
                 new WriteCurrency(token, this);
             }
-            else if (now == morning || now == afternoon || now == night)
+            else if (now == afternoon || now == night)
             {
                 token = await login();
                 WriteToFile("\nAppreciate article");
