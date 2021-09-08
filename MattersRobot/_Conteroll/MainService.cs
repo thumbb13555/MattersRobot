@@ -68,10 +68,10 @@ namespace MattersRobot
             reportCount++;
             if(reportCount == 3600)
             {
-                reportCount = 0;
-                WriteToFile("定時回報: 於" + DateTime.Now+"服務器運作正常");
+                WriteToFile("定時回報: 於" + DateTime.Now + "服務器運作正常");
                 //每小時更新幣價
                 new UpdateCoinPrice();
+                reportCount = 0;
             }
         }
 
