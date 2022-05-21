@@ -57,9 +57,9 @@ namespace MattersRobot.Utils
         public int afternoon = Int32.Parse(DateTime.Today.AddHours(15).AddMinutes(00).ToString("HHmmss"));//下午3點
         public int evening = Int32.Parse(DateTime.Today.AddHours(17).ToString("HHmmss"));//下午5點
         public int night = Int32.Parse(DateTime.Today.AddHours(20).AddMinutes(30).ToString("HHmmss"));//晚上3點30分
-        public const string UserName = "";
+        public const string UserName = "eddis61805";
         public string Account = $"{UserName}@gmail.com";
-        public const string Password = "";
+        public const string Password = "tuba21031";
         public static string token = "";
         public const string CurrencyCover = "http://103.246.218.136/MyImage/cryptocurrency.jpg";
         public const string CovidCover = "http://103.246.218.136/MyImage/covid19.jpg";
@@ -111,7 +111,7 @@ namespace MattersRobot.Utils
             GraphQLRequest request = new GraphQLRequest
             {
                 Query = @"
-                mutation PutDraft($cover:ID!,$title:String!, $summary: String!, $content:String!,$tags:[String]){
+                mutation PutDraft($cover:ID!,$title:String!, $summary: String!, $content:String!,$tags:[String!]){
                     putDraft(input:{cover:$cover ,title:$title,summary:$summary,content:$content,tags:$tags}){
                         id
                     }
@@ -247,7 +247,7 @@ namespace MattersRobot.Utils
                 {
                     url = url
                 }*/
-            };
+        };
             return request;
         }//
         public GraphQLRequest getPayToLink(string amount, string recipientId, string targetId)

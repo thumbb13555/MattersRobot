@@ -19,6 +19,7 @@ namespace MattersRobot._Module.Entitly
             client.HttpClient.DefaultRequestHeaders.Add("x-access-token",token);
             GraphQLRequest request = req;
             var response = await client.SendQueryAsync<Draft>(request);
+            
             return response.Data.putDraft.id;
         }
         public class Draft

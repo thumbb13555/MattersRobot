@@ -29,8 +29,8 @@ namespace MattersRobot
             timer.Enabled = true;
             WriteToFile("檢查輸出帳密: "+Account+", "+Password);
 
-            //token = await login();
-            //new WriteCovidInfo(token, this);
+            token = await login();
+            new WriteCovidInfo(token, this);
             //new WriteCurrency(token, this);
             //new AppreciateFollowers(UserName, token);
             //new Donate(token);
